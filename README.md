@@ -1,6 +1,6 @@
 # GroupAssignment
 
-Members:
+Members:\
 Wabz the godz\
 Paul from the Mall\
 Andrew the Hippopotas\
