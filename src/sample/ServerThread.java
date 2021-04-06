@@ -31,6 +31,8 @@ public class ServerThread extends Thread{
     }
 
     public void run(){
+        //IMPORTANT all clients are expected to send what type of game they want "CPU" or "PLAYER"
+        //Immediately upon making connection
         /*
         Planning the back and forth between server and client
         1. Connection
@@ -55,7 +57,7 @@ public class ServerThread extends Thread{
             //todo create cpu game
         }
         //todo check this if line to make sure it is actually comparing to the line properly
-        else if(line == "Player"){
+        else if(line == "PLAYER"){
             lookingForPartner = true;
             ticTacToePvp();
         }
@@ -103,14 +105,22 @@ public class ServerThread extends Thread{
 
         //run the game while it isn't over
         while (gameIsOver != true){
+            /*
+            Behaviour expected from this point on is..
+            1. Tell all clients who's turn it is or if game is over
+            2. Client who's turn it is will send their turn while Client who's turn it isn't waits
+               for the board update
+            3. Both Clients get board update
+            4. Repeat
+            */
             //tell the client whether to wait for input from the partner or to get input from
             //its user
             if (playerTurn == 1){
-                out.println("Your Turn");
-                partner.out.println("Other Turn");
+                out.println("1");
+                partner.out.println("2");
             } else {
-                out.println("Other Turn");
-                partner.out.println("Your Turn");
+                out.println("2");
+                partner.out.println("1");
             }
 
             try{

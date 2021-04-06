@@ -56,7 +56,7 @@ public class Main extends Application {
         bottomPanel.add(exitButton, 29, 0);
 
         //Tic Tac Toe shtuff
-        String playerTurn = "1";
+        String playerTurn = "2";
         //TODO: UPDATE PLAYERTURN FROM SERVER WHILE GAME IS RUNNING
         GridPane TicTacToeUI = TicTacToe.getTicTacToe(playerTurn);
         //SERVER DOES SOMETHING
