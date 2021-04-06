@@ -10,22 +10,24 @@ import javafx.scene.text.Text;
 
 public class TicTacToe extends Main{
 
-    public static GridPane getTicTacToe() {
+    //Getting image
+    private static final Image topLeftImage = new Image("TicTacToeGridTopLeft.png");
+    private static final Image topMiddleImage = new Image("TicTacToeGridTopMiddle.png");
+    private static final Image topRightImage = new Image("TicTacToeGridTopRight.png");
+    private static final Image middleLeftImage = new Image("TicTacToeGridMiddleLeft.png");
+    private static final Image middleMiddleImage = new Image("TicTacToeGridMiddleMiddle.png");
+    private static final Image middleRightImage = new Image("TicTacToeGridMiddleRight.png");
+    private static final Image bottomLeftImage = new Image("TicTacToeGridBottomLeft.png");
+    private static final Image bottomMiddleImage = new Image("TicTacToeGridBottomMiddle.png");
+    private static final Image bottomRightImage = new Image("TicTacToeGridBottomRight.png");
+    private static final Image player1 = new Image("EX.gif");
+    private static final Image player2 = new Image("OH.png");
+
+    public static GridPane getTicTacToe(String playerTurn) {
         GridPane ticTacGrid = new GridPane();
         Text test = new Text("TESTING TEXT");
         ticTacGrid.setAlignment(Pos.TOP_LEFT);
         ticTacGrid.setPadding(new Insets(50,50,50,50));
-
-        //Getting image
-        Image topLeftImage = new Image("TicTacToeGridTopLeft.png");
-        Image topMiddleImage = new Image("TicTacToeGridTopMiddle.png");
-        Image topRightImage = new Image("TicTacToeGridTopRight.png");
-        Image middleLeftImage = new Image("TicTacToeGridMiddleLeft.png");
-        Image middleMiddleImage = new Image("TicTacToeGridMiddleMiddle.png");
-        Image middleRightImage = new Image("TicTacToeGridMiddleRight.png");
-        Image bottomLeftImage = new Image("TicTacToeGridBottomLeft.png");
-        Image bottomMiddleImage = new Image("TicTacToeGridBottomMiddle.png");
-        Image bottomRightImage = new Image("TicTacToeGridBottomRight.png");
 
         //Setting image
         ticTacGrid.add(new ImageView(topLeftImage), 0, 0);
@@ -67,23 +69,31 @@ public class TicTacToe extends Main{
         ticTacGrid.setGridLinesVisible(true);
 
         //Making buttons invisible
-        topLeft.setVisible(false);
-        topMiddle.setVisible(false);
-        topRight.setVisible(false);
-        middleLeft.setVisible(false);
-        middleMiddle.setVisible(false);
-        middleRight.setVisible(false);
-        bottomLeft.setVisible(false);
-        bottomMiddle.setVisible(false);
-        bottomRight.setVisible(false);
+        ticTacGrid.getStylesheets().add("Colors.css");
 
         //Button Actions
-        topLeft.setOnAction(e -> tap("x"));
+        topLeft.setOnAction(e -> tap(playerTurn, topLeft));
+        topMiddle.setOnAction(e -> tap(playerTurn, topMiddle));
+        topRight.setOnAction(e -> tap(playerTurn, topRight));
+        middleLeft.setOnAction(e -> tap(playerTurn, middleLeft));
+        middleMiddle.setOnAction(e -> tap(playerTurn, middleMiddle));
+        middleRight.setOnAction(e -> tap(playerTurn, middleRight));
+        bottomLeft.setOnAction(e -> tap(playerTurn, bottomLeft));
+        bottomMiddle.setOnAction(e -> tap(playerTurn, bottomMiddle));
+        bottomRight.setOnAction(e -> tap(playerTurn, bottomRight));
 
         return ticTacGrid;
     }
 
-    private static void tap(String x) {
-        
+    private static void tap(String option, Button button) {
+        if(option.equals("1")){
+            button.setDisable(true);
+            button.setGraphic(new ImageView(player1));
+        }
+        if(option.equals("2")){
+            button.setDisable(true);
+            button.setGraphic(new ImageView(player2));
+            button.setVisible(true);
+        }
     }
 }
