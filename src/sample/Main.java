@@ -31,8 +31,6 @@ public class Main extends Application {
         exitButton.setMinWidth(200);
         exitButton.setMinHeight(100);
 
-
-
         //Set up button
         searchButton.setOnAction(e -> searchButtonPress());
         exitButton.setOnAction(e -> exitButtonPress());
@@ -55,6 +53,10 @@ public class Main extends Application {
         //Adding buttons to panel
         topPanel.add(searchButton, 0, 0);
         bottomPanel.add(exitButton, 70, 0);
+
+        //Tic Tac Toe shtuff
+        GridPane TicTacToeUI = TicTacToe.getTicTacToe();
+        root.setCenter(TicTacToeUI);
 
         //Adding Panels to BorderPane
         root.setTop(topPanel);
