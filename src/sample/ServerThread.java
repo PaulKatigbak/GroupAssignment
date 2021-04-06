@@ -99,7 +99,7 @@ public class ServerThread extends Thread{
         //variable for taking in lines
         String line = null;
         //string[] for storing the player's move
-        String[] playerMove = null;
+        String playerMove = null;
 
         //run the game while it isn't over
         while (gameIsOver != true){
@@ -120,13 +120,15 @@ public class ServerThread extends Thread{
                 } else {
                     line = partner.in.readLine();
                 }
-                //player input accepted as a string of coord numbers separated by a comma
-                playerMove = line.toString().split(",");
+                //player input accepted as single int coord
+                playerMove = line;
                 //the game board is split in to a list of strings in order to change a specific tile later
                 String[] workingBoard = board.split(",");
                 //the square to update is calculated starting in the top left corner and counting down
-                //and to the right. It expects player input in the form "(x coord),(y coord)"
-                int squareToUpdate = Integer.parseInt(playerMove[0]) + Integer.parseInt(playerMove[1])*3;
+                //"1,0,0,0,0,0,0,0,0" x in top left
+                //"0,0,0,0,1,0,0,0,0" x in middle
+                //"0,0,2,0,1,0,0,0,0" x in middle
+                int squareToUpdate = Integer.parseInt(playerMove);
                 //update the square
                 workingBoard[squareToUpdate] = String.valueOf(playerTurn);
                 if (playerTurn == 1){

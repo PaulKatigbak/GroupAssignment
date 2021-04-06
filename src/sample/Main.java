@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -31,8 +32,6 @@ public class Main extends Application {
         exitButton.setMinWidth(200);
         exitButton.setMinHeight(100);
 
-
-
         //Set up button
         searchButton.setOnAction(e -> searchButtonPress());
         exitButton.setOnAction(e -> exitButtonPress());
@@ -42,26 +41,32 @@ public class Main extends Application {
         topPanel.setAlignment(Pos.TOP_LEFT);
         topPanel.setHgap(10);
         topPanel.setVgap(10);
-        topPanel.setPadding(new Insets(5, 0, 5, 0));
+        topPanel.setPadding(new Insets(5, 5, 5, 5));
 
 
         //Set up bottom panel
         GridPane bottomPanel = new GridPane();
-        bottomPanel.setAlignment(Pos.BOTTOM_LEFT);
+        bottomPanel.setAlignment(Pos.TOP_LEFT);
         bottomPanel.setHgap(10);
         bottomPanel.setVgap(10);
-        bottomPanel.setPadding(new Insets(5, 0, 5, 0));
+        bottomPanel.setPadding(new Insets(5, 5, 5, 5));
 
         //Adding buttons to panel
         topPanel.add(searchButton, 0, 0);
-        bottomPanel.add(exitButton, 70, 0);
+        bottomPanel.add(exitButton, 29, 0);
+
+        //Tic Tac Toe shtuff
+        GridPane TicTacToeUI = TicTacToe.getTicTacToe();
+        //SERVER DOES SOMETHING
+        root.setCenter(TicTacToeUI);
+        System.out.println(root.getCenter().boundsInLocalProperty());
 
         //Adding Panels to BorderPane
         root.setTop(topPanel);
         root.setBottom(bottomPanel);
 
         //Setting up scene
-        primaryStage.setScene(new Scene(root, 900, 800));
+        primaryStage.setScene(new Scene(root, 500, 725));
         primaryStage.show();
     }
 
