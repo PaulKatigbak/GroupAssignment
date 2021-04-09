@@ -22,7 +22,7 @@ public class ServerThread extends Thread{
         this.playerID = playerID;
         System.out.println(socket.isConnected());
         try {
-            //System.out.println("Establishing IO");
+            System.out.println("Establishing IO");
             //store the io streams
             out = new PrintWriter(socket.getOutputStream(), true);
             System.out.println("Test after out");
@@ -49,6 +49,7 @@ public class ServerThread extends Thread{
         9. Disconnect clients? (or new game? tbd)
         */
 
+        //Reads what the user wants
         String line = null;
         try{
             line = in.readLine();
@@ -56,7 +57,7 @@ public class ServerThread extends Thread{
             e.printStackTrace();
         }
         //test print
-        System.out.println("The inputed line is '" + line + "'");
+        System.out.println("The inputed line is '" + line + "'"); //Test read
 
         //take the initial line in from the client and determine what they want
         if (line.equals("CPU")){
@@ -99,8 +100,8 @@ public class ServerThread extends Thread{
         System.out.println("Player found!");
         //if thread isn't the main thread have it stay open until the game is done to allow
         //for io to it's client
-        if (primaryThread == false){
-            while(gameIsOver != true){
+        if (!primaryThread){
+            while(!gameIsOver){
             //wait while the main thread handles everything
             }
             System.exit(0);
@@ -114,7 +115,7 @@ public class ServerThread extends Thread{
         String playerMove = null;
 
         //run the game while it isn't over
-        while (gameIsOver != true){
+        while (!gameIsOver){
             /*
             Behaviour expected from this point on is..
             1. Tell all clients who's turn it is or if game is over

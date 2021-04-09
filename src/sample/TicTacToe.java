@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
+
 public class TicTacToe extends Main{
 
     //Getting image
@@ -22,12 +24,20 @@ public class TicTacToe extends Main{
     private static final Image bottomRightImage = new Image("TicTacToeGridBottomRight.png");
     private static final Image player1 = new Image("EX.gif");
     private static final Image player2 = new Image("OH.png");
+    public static boolean turnFinished = false;
+    static ArrayList<String> board = new ArrayList<>();
 
     public static GridPane getTicTacToe(String playerTurn) {
         GridPane ticTacGrid = new GridPane();
         Text test = new Text("TESTING TEXT");
         ticTacGrid.setAlignment(Pos.TOP_LEFT);
         ticTacGrid.setPadding(new Insets(50,50,50,50));
+
+        //Initialize board array
+        for(int i = 0; i<9; i++) {
+            board.add("0");
+        }
+        System.out.println(board.size());
 
         //Setting image
         ticTacGrid.add(new ImageView(topLeftImage), 0, 0);
@@ -72,20 +82,21 @@ public class TicTacToe extends Main{
         ticTacGrid.getStylesheets().add("Colors.css");
 
         //Button Actions
-        topLeft.setOnAction(e -> tap(playerTurn, topLeft));
-        topMiddle.setOnAction(e -> tap(playerTurn, topMiddle));
-        topRight.setOnAction(e -> tap(playerTurn, topRight));
-        middleLeft.setOnAction(e -> tap(playerTurn, middleLeft));
-        middleMiddle.setOnAction(e -> tap(playerTurn, middleMiddle));
-        middleRight.setOnAction(e -> tap(playerTurn, middleRight));
-        bottomLeft.setOnAction(e -> tap(playerTurn, bottomLeft));
-        bottomMiddle.setOnAction(e -> tap(playerTurn, bottomMiddle));
-        bottomRight.setOnAction(e -> tap(playerTurn, bottomRight));
+        topLeft.setOnAction(e -> tap(playerTurn, topLeft, 0));
+        topMiddle.setOnAction(e -> tap(playerTurn, topMiddle, 1));
+        topRight.setOnAction(e -> tap(playerTurn, topRight, 2));
+        middleLeft.setOnAction(e -> tap(playerTurn, middleLeft, 3));
+        middleMiddle.setOnAction(e -> tap(playerTurn, middleMiddle, 4));
+        middleRight.setOnAction(e -> tap(playerTurn, middleRight, 5));
+        bottomLeft.setOnAction(e -> tap(playerTurn, bottomLeft,6));
+        bottomMiddle.setOnAction(e -> tap(playerTurn, bottomMiddle, 7));
+        bottomRight.setOnAction(e -> tap(playerTurn, bottomRight, 8));
 
         return ticTacGrid;
     }
 
-    private static void tap(String option, Button button) {
+    private static void tap(String option, Button button, int location) {
+        board.set(location, option);
         if(option.equals("1")){
             button.setDisable(true);
             button.setGraphic(new ImageView(player1));
@@ -95,5 +106,8 @@ public class TicTacToe extends Main{
             button.setGraphic(new ImageView(player2));
             button.setVisible(true);
         }
+        Main.sendBoardToServer();
+        turnFinished = true;
     }
+
 }
