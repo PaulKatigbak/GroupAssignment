@@ -9,6 +9,7 @@ public class Server {
     public static ServerThread[] serverThreads;
     public ServerSocket serverSocket = null;
     private int MAXPLAYERS = 30;
+    int numClient = 0;
 
     public Server(){
         System.out.println("Starting tic tac toe Server.");
@@ -22,10 +23,11 @@ public class Server {
                 System.out.println("Waiting for a connection");
                 clientSocket = serverSocket.accept();
                 //assign sockets to players
-                for (int i = 0; i < MAXPLAYERS; i++){
-                    if (serverThreads[i] == null){
-                        serverThreads[i] = new ServerThread(clientSocket);
-                        serverThreads[i].start();
+                if (numClient < MAXPLAYERS){
+                    if (serverThreads[numClient] == null){
+                        serverThreads[numClient] = new ServerThread(clientSocket, numClient);
+                        serverThreads[numClient].start();
+                        numClient++;
                     }
                 }
             }

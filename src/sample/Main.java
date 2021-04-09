@@ -13,8 +13,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+import java.io.*;
+import java.net.Socket;
 
+public class Main extends Application {
+    Socket socket;
+    PrintWriter out = null;
+    BufferedReader in = null;
     //Hello friends, I don't like fxml so I am going to fuck up the ui and make it here, this code will look ugly, sorry in advance!
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -33,7 +38,13 @@ public class Main extends Application {
         exitButton.setMinHeight(100);
 
         //Set up button
-        searchButton.setOnAction(e -> searchButtonPress());
+        searchButton.setOnAction(e -> {
+            try {
+                searchButtonPress();
+            } catch (IOException ioException) {
+                System.out.println("Server is not open");
+            }
+        });
         exitButton.setOnAction(e -> exitButtonPress());
 
         //Setting up top panel
@@ -76,18 +87,23 @@ public class Main extends Application {
         System.exit(1);
     }
 
-    private void searchButtonPress() {
-        Stage stage = new Stage();
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        Text errorMessage = new Text("DOES LITERALLY NOTHING YOU DENT");
-        grid.add(errorMessage, 0, 0);
-        Scene tempScene = new Scene(grid, 300, 100);
-        stage.setScene(tempScene);
-        stage.show();
-        System.out.println("This does literally nothing yet, go add something you dent");
+    private void searchButtonPress() throws IOException {
+
+        //Create a stream to send a message
+        out = new PrintWriter(socket.getOutputStream(), true);
+        out.println("PLAYER");
+
+        //Send search message
+        out.flush();
+
+        //Create a stream to read messages
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        readMessageFromServer();
     }
 
+    public void readMessageFromServer() {
+
+    }
 
     public static void main(String[] args) {
         launch(args);

@@ -14,17 +14,20 @@ public class ServerThread extends Thread{
     ServerThread partner = null;
     Boolean primaryThread = null;
     Boolean gameIsOver = false;
+    int playerID;
 
-
-    public ServerThread(Socket socket){
+    public ServerThread(Socket socket, int playerID){
         super();
         this.socket = socket;
+        this.playerID = playerID;
         System.out.println(socket.isConnected());
         try {
-            System.out.println("Establishing IO");
+            //System.out.println("Establishing IO");
             //store the io streams
             out = new PrintWriter(socket.getOutputStream(), true);
+            System.out.println("Test after out");
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            System.out.println("Test after in");
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -45,19 +48,22 @@ public class ServerThread extends Thread{
         8. Loop back to step 4 until win or board is full
         9. Disconnect clients? (or new game? tbd)
         */
+
         String line = null;
         try{
             line = in.readLine();
         } catch (Exception e){
             e.printStackTrace();
         }
+        //test print
+        System.out.println("The inputed line is '" + line + "'");
 
         //take the initial line in from the client and determine what they want
-        if (line == "CPU"){
+        if (line.equals("CPU")){
             //todo create cpu game
         }
         //todo check this if line to make sure it is actually comparing to the line properly
-        else if(line == "PLAYER"){
+        else if(line.equals("PLAYER")){
             lookingForPartner = true;
             ticTacToePvp();
         }
@@ -68,7 +74,9 @@ public class ServerThread extends Thread{
 
     public void ticTacToePvp(){
         //while you dont have a partner search for one
-        while (lookingForPartner == true){
+        System.out.println("A player is searching");
+        while (lookingForPartner){
+            System.out.println("Entering the world of the while loop");
             //get the list of players active on the server
             ServerThread[] players = Server.serverThreads;
             for (ServerThread player : players){
@@ -76,7 +84,8 @@ public class ServerThread extends Thread{
                 //you also need to stop looking and store that player as the partner
                 //the thread which finds a player first becomes the primary thread
                 //which will execute the game code
-                if (player.lookingForPartner == true){
+                if (player != this && player != null && player.lookingForPartner){
+                    System.out.println("Entering the world of players");
                     player.lookingForPartner = false;
                     this.lookingForPartner = false;
                     this.partner = player;
@@ -87,6 +96,7 @@ public class ServerThread extends Thread{
                 }
             }
         }
+        System.out.println("Player found!");
         //if thread isn't the main thread have it stay open until the game is done to allow
         //for io to it's client
         if (primaryThread == false){
