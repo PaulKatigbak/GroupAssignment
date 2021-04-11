@@ -126,12 +126,15 @@ public class ServerThread extends Thread{
             */
             //tell the client whether to wait for input from the partner or to get input from
             //its user
+
             if (playerTurn == 1){
                 out.println("1");
                 partner.out.println("2");
+                System.out.println("Player 1's turn");
             } else {
                 out.println("2");
                 partner.out.println("1");
+                System.out.println("Player 2's turn");
             }
 
             try{
@@ -149,6 +152,10 @@ public class ServerThread extends Thread{
                 //"1,0,0,0,0,0,0,0,0" x in top left
                 //"0,0,0,0,1,0,0,0,0" x in middle
                 //"0,0,2,0,1,0,0,0,0" x in middle
+
+                board = line;
+                System.out.println("new board = " + board);
+                /*
                 int squareToUpdate = Integer.parseInt(playerMove);
                 //update the square
                 workingBoard[squareToUpdate] = String.valueOf(playerTurn);
@@ -160,8 +167,15 @@ public class ServerThread extends Thread{
                 //join the updated board and store it in the board string
                 board = String.join(",",workingBoard);
                 //send the new board to both clients
+
+                 */
                 out.println(board);
                 partner.out.println(board);
+                if (playerTurn == 1){
+                    playerTurn = 2;
+                } else {
+                    playerTurn = 1;
+                }
                 //todo code if game is over check
             }catch (Exception e) {
                 e.printStackTrace();
