@@ -57,7 +57,7 @@ public class ServerThread extends Thread{
             e.printStackTrace();
         }
         //test print
-        System.out.println("The inputed line is '" + line + "'"); //Test read
+        System.out.println("The inputted line is '" + line + "'"); //Test read
 
         //take the initial line in from the client and determine what they want
         if (line.equals("CPU")){
@@ -169,20 +169,26 @@ public class ServerThread extends Thread{
                 //send the new board to both clients
 
                  */
-                out.println(board);
-                partner.out.println(board);
+
+
                 if (playerTurn == 1){
                     playerTurn = 2;
+                    System.out.println("sending player 2 the board");
+                    partner.out.println(board);
                 } else {
                     playerTurn = 1;
+                    System.out.println("sending player 1 the board");
+                    out.println(board);
                 }
                 //todo code if game is over check
             }catch (Exception e) {
                 e.printStackTrace();
+                gameIsOver = true;
+                partner.gameIsOver = true;
             }
         }
-        out.println("Game Over");
-        partner.out.println("Game Over");
+        out.println("3");
+        partner.out.println("3");
 
     }
 

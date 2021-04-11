@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -22,6 +23,8 @@ public class Main extends Application {
     static Socket socket;
     static PrintWriter out = null;
     static BufferedReader in = null;
+    static Boolean hasRecievedRole = false;
+    static String playerTurn = "2";
     //Hello friends, I don't like fxml so I am going to fuck up the ui and make it here, this code will look ugly, sorry in advance!
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -69,7 +72,7 @@ public class Main extends Application {
         bottomPanel.add(exitButton, 29, 0);
 
         //Tic Tac Toe shtuff
-        String playerTurn = "2";
+        playerTurn = "2";
         //TODO: UPDATE PLAYERTURN FROM SERVER WHILE GAME IS RUNNING
         GridPane TicTacToeUI = TicTacToe.getTicTacToe(playerTurn);
         //SERVER DOES SOMETHING
@@ -104,27 +107,72 @@ public class Main extends Application {
     }
 
     public static void readMessageFromServer() throws IOException { //This is to read whos turn it is
-        String playerTurn = in.readLine();
-        if(playerTurn.equals("1")) playYourTurn();
-        if(playerTurn.equals("2")) waitYourTurn();
-        if(playerTurn.equals("3")) gameOver();
-        else{
-            System.out.println(playerTurn);
+        TicTacToe.updateBoard();
+        try {
+            Platform.runLater(() -> {
+                String playerTurn = null;
+                try {
+                    playerTurn = in.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (playerTurn.equals("1")) {
+                    if(hasRecievedRole == false){
+                        TicTacToe.playerTurn = "1";
+                        hasRecievedRole = true;
+                    }
+                    try {
+                        playYourTurn();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (playerTurn.equals("2")) {
+                    if(hasRecievedRole == false){
+                        TicTacToe.playerTurn = "2";
+                        hasRecievedRole = true;
+                    }
+                    try {
+                        waitYourTurn();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (playerTurn.equals("3")) gameOver();
+                else {
+                    System.out.println(playerTurn);
+                }
+            });
+        } catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     public static void playYourTurn() throws IOException { //Function to actually play your turn
+        TicTacToe.updateBoard();
         System.out.println("It is your turn friend");
+        System.out.println("Press a button man");
+        TicTacToe.turnFinished = false;
+        /*
+        Platform.runLater(() -> { //The thread lets you run it as if it was a while loop (Javafx doesnt like while loop)
+            while (!TicTacToe.turnFinished) {
+                //do nothing
+                System.out.println("waiting for button input");
+
+            }
+            System.out.println("Your turn is done!");
+        });*/
+        /*
         Thread something = new Thread(() -> { //The thread lets you run it as if it was a while loop (Javafx doesnt like while loop)
             while(!TicTacToe.turnFinished) {
                 //do nothing
-                System.out.println("Press a button man");
+
             }
+            System.out.println("Your turn is done!");
         });
         something.start();
-        TicTacToe.turnFinished = false;
-        waitYourTurn();
-        System.out.println("Your turn is done!");
+         */
     }
 
     public static void sendBoardToServer(){ //Function to send your board to the server
@@ -138,18 +186,34 @@ public class Main extends Application {
         System.out.println(board);
         out.println(board);
         out.flush();
+        try{
+            readMessageFromServer();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        TicTacToe.updateBoard();
+
     }
+
     public static void waitYourTurn() throws IOException { //This is the function to wait, once the board is sent, this reads it
-        Thread waiting = new Thread(() -> {
+        Platform.runLater(() -> {
             try {
-                String currentBoard = in.readLine();
+                String[] currentBoard = in.readLine().split(",");
+                //store board from server
+                TicTacToe.board = new ArrayList<>();
+                for (String s : currentBoard){
+                    TicTacToe.board.add(s);
+                }
+                //update board graphics
+                TicTacToe.updateBoard();
                 System.out.println(currentBoard);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-        waiting.start();
+        //waiting.start();
         System.out.println("You are waiting your turn friend");
+        //readMessageFromServer();
     }
 
     public static void gameOver(){
