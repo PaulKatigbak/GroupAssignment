@@ -109,7 +109,6 @@ public class Main extends Application {
     public static void readMessageFromServer() throws IOException { //This is to read whos turn it is
         TicTacToe.updateBoard();
         try {
-            Platform.runLater(() -> {
                 String playerTurn = null;
                 try {
                     playerTurn = in.readLine();
@@ -142,7 +141,6 @@ public class Main extends Application {
                 else {
                     System.out.println(playerTurn);
                 }
-            });
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -196,24 +194,21 @@ public class Main extends Application {
     }
 
     public static void waitYourTurn() throws IOException { //This is the function to wait, once the board is sent, this reads it
-        Platform.runLater(() -> {
-            try {
-                String[] currentBoard = in.readLine().split(",");
-                //store board from server
-                TicTacToe.board = new ArrayList<>();
-                for (String s : currentBoard){
-                    TicTacToe.board.add(s);
-                }
-                //update board graphics
-                TicTacToe.updateBoard();
-                System.out.println(currentBoard);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+
+        System.out.println("for board input");
+        String[] currentBoard = in.readLine().split(",");
+        //store board from server
+        TicTacToe.board = new ArrayList<>();
+        for (String s : currentBoard){
+            TicTacToe.board.add(s);
+        }
+        //update board graphics
+        TicTacToe.updateBoard();
+        System.out.println(currentBoard);
+
         //waiting.start();
-        System.out.println("You are waiting your turn friend");
-        //readMessageFromServer();
+
+        readMessageFromServer();
     }
 
     public static void gameOver(){

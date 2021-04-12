@@ -139,16 +139,16 @@ public class TicTacToe extends Main{
     }
 
     public static void updateButton(Button button, String val){
-        System.out.println("val is being read as: " +val);
+        //System.out.println("val is being read as: " +val);
         if (val.equals("0")){
             //do nothing mane
         } else if (val.equals("1")){
-            System.out.println("button val is now "+val);
+            //System.out.println("button val is now "+val);
             button.setDisable(true);
             button.setGraphic(new ImageView(player1));
             button.setVisible(true);
         } else if (val.equals("2")){
-            System.out.println("button val is now "+val);
+            //System.out.println("button val is now "+val);
             button.setDisable(true);
             button.setGraphic(new ImageView(player2));
             button.setVisible(true);
