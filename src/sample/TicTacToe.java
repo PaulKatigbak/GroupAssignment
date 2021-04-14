@@ -2,12 +2,17 @@ package sample;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.scene.Group;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TicTacToe extends Main{
@@ -119,8 +124,61 @@ public class TicTacToe extends Main{
             button.setGraphic(new ImageView(player2));
             button.setVisible(true);
         }
+        checkEndGame(option);
         Main.sendBoardToServer();
         turnFinished = true;
+    }
+
+    public static void checkEndGame(String option){
+        if (board.get(0).equals(option) && board.get(1).equals(option) && board.get(2).equals(option)){
+            wonGame(option);
+        }
+        else if (board.get(3).equals(option) && board.get(4).equals(option) && board.get(5).equals(option)){
+            wonGame(option);
+        }
+        else if (board.get(6).equals(option) && board.get(7).equals(option) && board.get(8).equals(option)){
+            wonGame(option);
+        }
+        else if (board.get(0).equals(option) && board.get(3).equals(option) && board.get(6).equals(option)){
+            wonGame(option);
+        }
+        else if (board.get(1).equals(option) && board.get(4).equals(option) && board.get(7).equals(option)){
+            wonGame(option);
+        }
+        else if (board.get(2).equals(option) && board.get(5).equals(option) && board.get(8).equals(option)){
+            wonGame(option);
+        }
+        else if (board.get(0).equals(option) && board.get(4).equals(option) && board.get(8).equals(option)){
+            wonGame(option);
+        }
+        else if (board.get(2).equals(option) && board.get(4).equals(option) && board.get(6).equals(option)){
+            wonGame(option);
+        }
+        else if (!board.get(0).equals("0") && !board.get(1).equals("0") && !board.get(2).equals("0")
+                && !board.get(3).equals("0") && !board.get(4).equals("0") && !board.get(5).equals("0")
+                && !board.get(6).equals("0") && !board.get(7).equals("0") && !board.get(8).equals("0")){
+            tieGame(option);
+        }
+    }
+
+    public static void wonGame(String option){
+        //socket.close() ?
+        Stage winStage = new Stage();
+        Text win = new Text(100, 100, "Player " + option + " wins!");
+        win.setFont(new Font(20));
+        Group group = new Group(win);
+        winStage.setScene(new Scene(group, 300, 300));
+        winStage.show();
+    }
+
+    public static void tieGame(String option){
+        //socket.close() ?
+        Stage tieStage = new Stage();
+        Text tie = new Text(50, 100, "The game ends in a tie!");
+        tie.setFont(new Font(20));
+        Group group = new Group(tie);
+        tieStage.setScene(new Scene(group, 300, 300));
+        tieStage.show();
     }
 
     public static void updateBoard(){
