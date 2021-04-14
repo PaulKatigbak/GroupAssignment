@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -72,6 +73,17 @@ public class TicTacToe extends Main{
         buttons.add(middleLeft); buttons.add(middleMiddle); buttons.add(middleRight);
         buttons.add(bottomLeft); buttons.add(bottomMiddle); buttons.add(bottomRight);*/
 
+        //Setting buttons to be initially inactive
+        topLeft.setDisable(true);
+        topMiddle.setDisable(true);
+        topRight.setDisable(true);
+        middleLeft.setDisable(true);
+        middleMiddle.setDisable(true);
+        middleRight.setDisable(true);
+        bottomLeft.setDisable(true);
+        bottomMiddle.setDisable(true);
+        bottomRight.setDisable(true);
+
         //Setting button sizes (According to image sizes)
         topLeft.setMinSize(127, 129);
         topMiddle.setMinSize(127, 129);
@@ -110,6 +122,18 @@ public class TicTacToe extends Main{
         bottomRight.setOnAction(e -> tap(playerTurn, bottomRight, 8));
 
         return ticTacGrid;
+    }
+
+    public static void enableButtons(){
+        topLeft.setDisable(false);
+        topMiddle.setDisable(false);
+        topRight.setDisable(false);
+        middleLeft.setDisable(false);
+        middleMiddle.setDisable(false);
+        middleRight.setDisable(false);
+        bottomLeft.setDisable(false);
+        bottomMiddle.setDisable(false);
+        bottomRight.setDisable(false);
     }
 
     private static void tap(String option, Button button, int location) {
@@ -161,24 +185,50 @@ public class TicTacToe extends Main{
         }
     }
 
-    public static void wonGame(String option){
-        //socket.close() ?
+
+    public static void wonGame(String option) {
+        // ServerThread.gameIsOver = true ?
+        try {
+            Main.socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Stage winStage = new Stage();
         Text win = new Text(100, 100, "Player " + option + " wins!");
+
+        Button exitButton = new Button("Exit");
+        exitButton.setMinWidth(50);
+        exitButton.setMinHeight(25);
+        exitButton.setOnAction(e -> System.exit(1));
+
         win.setFont(new Font(20));
-        Group group = new Group(win);
+        Group group = new Group(win, exitButton);
         winStage.setScene(new Scene(group, 300, 300));
         winStage.show();
+
     }
 
     public static void tieGame(String option){
-        //socket.close() ?
+
+        try {
+            Main.socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Stage tieStage = new Stage();
         Text tie = new Text(50, 100, "The game ends in a tie!");
+
+        Button exitButton = new Button("Exit");
+        exitButton.setMinWidth(50);
+        exitButton.setMinHeight(25);
+        exitButton.setOnAction(e -> System.exit(1));
+
         tie.setFont(new Font(20));
-        Group group = new Group(tie);
+        Group group = new Group(tie, exitButton);
         tieStage.setScene(new Scene(group, 300, 300));
         tieStage.show();
+
     }
 
     public static void updateBoard(){

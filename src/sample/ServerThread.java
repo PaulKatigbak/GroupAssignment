@@ -13,7 +13,7 @@ public class ServerThread extends Thread{
     Boolean lookingForPartner = false;
     ServerThread partner = null;
     Boolean primaryThread = null;
-    Boolean gameIsOver = false;
+    public static Boolean gameIsOver = false;
     int playerID;
 
     public ServerThread(Socket socket, int playerID){

@@ -29,7 +29,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Tic Tac Toe");
 
         //Set up BorderPane
         BorderPane root = new BorderPane();
@@ -93,6 +93,7 @@ public class Main extends Application {
     }
 
     private static void searchButtonPress() throws IOException {
+        TicTacToe.enableButtons();
         socket = new Socket("localhost", 8080);
         //Create a stream to send a message
         out = new PrintWriter(socket.getOutputStream(), true);
@@ -137,7 +138,7 @@ public class Main extends Application {
                         e.printStackTrace();
                     }
                 }
-                if (playerTurn.equals("3")) gameOver();
+                if (playerTurn.equals("3") || ServerThread.gameIsOver == true) gameOver();
                 else {
                     System.out.println(playerTurn);
                 }
@@ -212,7 +213,6 @@ public class Main extends Application {
     }
 
     public static void gameOver(){
-
     }
     public static void main(String[] args) {
         launch(args);
