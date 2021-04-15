@@ -9,6 +9,8 @@ It runs on a local server which handles 2 players and sets the game state.
 #### Running Application
 ![img_1.png](img_1.png)
 
+## Video Presentation
+
 ## Installation
 1. Download or clone the package.
 
@@ -34,7 +36,11 @@ It runs on a local server which handles 2 players and sets the game state.
 16. You can now run the server by pressing the run or play button once
 17. Run Main twice to open to UI windows.
 
-
+## Guideline Questions Answered
+1. The team was able to properly identify and set a realistic project within the given timeframe.
+2. The implementation is able to execute perfectly. The code was also made with proper coding practices and comments to help guide readers. The implementation does not have executable versions.
+3. README contains all necessary information about the project.
+4. The project was able to implement all the proposed scopes while also having a pleasing and intuitive gui.
 
 ## Contributors
 ##### Members:
