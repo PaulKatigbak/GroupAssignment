@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -33,6 +34,7 @@ public class Main extends Application {
     //The function runs when the button "search for match is clicked"
     private static void searchButtonPress() throws IOException {
         TicTacToe.enableButtons();
+        System.out.println("Searching...");
         socket = new Socket("localhost", 8080);
         //Create a stream to send a message
         out = new PrintWriter(socket.getOutputStream(), true);
@@ -114,6 +116,13 @@ public class Main extends Application {
             }
             TicTacToe.updateBoard();
         }
+        if(TicTacToe.gameOver){
+            try {
+                Main.socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //This is the function to wait, once the board is sent, this reads it
@@ -151,6 +160,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Tic Tac Toe");
+        primaryStage.getIcons().add(new Image("tictactoePFP.png"));
 
         //Set up BorderPane
         BorderPane root = new BorderPane();
@@ -205,7 +215,9 @@ public class Main extends Application {
         root.setBottom(bottomPanel);
 
         //Setting up scene
-        primaryStage.setScene(new Scene(root, 500, 725));
+        Scene scene = new Scene(root, 500, 725);
+        scene.getStylesheets().add("Colors2.css");
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

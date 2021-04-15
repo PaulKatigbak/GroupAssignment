@@ -189,11 +189,6 @@ public class TicTacToe extends Main {
         System.out.println("GAME OVER TEST LINE");
         gameOver = true;
         Main.sendBoardToServer();
-        try {
-            Main.socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         Stage winStage = new Stage();
         Text win = new Text(100, 100, "Player " + option + " wins!");
 
@@ -211,12 +206,8 @@ public class TicTacToe extends Main {
 
     //Checks if the game is a tie
     public static void tieGame(String option) {
-        try {
-            Main.socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        gameOver = true;
+        Main.sendBoardToServer();
         Stage tieStage = new Stage();
         Text tie = new Text(50, 100, "The game ends in a tie!");
 
