@@ -1,3 +1,4 @@
+
 # Group Project [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
 ## About
@@ -8,8 +9,6 @@ It runs on a local server which handles 2 players and sets the game state.
 
 #### Running Application
 ![img_1.png](img_1.png)
-
-## Video Presentation
 
 ## Installation
 1. Download or clone the package.
