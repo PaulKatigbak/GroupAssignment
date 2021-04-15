@@ -48,6 +48,6 @@ Wahbi Raihan (The Wabzter)\
 Evan Curtis (The Ekan)\
 Paul Gabriel Katigbak (The Mall Cop)
 
-##Note
+## Note
 
 Some commits may happen after deadline to ensure code and repo quality.
