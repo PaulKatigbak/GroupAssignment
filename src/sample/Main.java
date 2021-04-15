@@ -3,10 +3,13 @@ package sample;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -103,13 +106,14 @@ public class Main extends Application {
         System.out.println(board);
         out.println(board);
         out.flush();
-        try {
-            readMessageFromServer();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(!TicTacToe.gameOver) {
+            try {
+                readMessageFromServer();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            TicTacToe.updateBoard();
         }
-        TicTacToe.updateBoard();
-
     }
 
     //This is the function to wait, once the board is sent, this reads it
@@ -126,7 +130,8 @@ public class Main extends Application {
         System.out.println(currentBoard);
 
         //waiting.start();
-        readMessageFromServer();
+        if(!TicTacToe.gameOver) readMessageFromServer();
+        if(TicTacToe.gameOver) TicTacToe.wonGame("other");
     }
 
 
@@ -135,6 +140,10 @@ public class Main extends Application {
 //----------------------------------Launch Main----------------------------------------------------------//
     public static void main(String[] args) {
         launch(args);
+    }
+
+    protected static void wonGame(String option) {
+
     }
 
     //Hello friends, I don't like fxml so I am going to fuck up the ui and make it here, this code will look ugly, sorry in advance!

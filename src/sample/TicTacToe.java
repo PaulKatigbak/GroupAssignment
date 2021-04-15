@@ -37,6 +37,7 @@ public class TicTacToe extends Main {
     public static ArrayList<Button> buttons = new ArrayList<>();
     public static String playerTurn;
     static ArrayList<String> board = new ArrayList<>();
+    public static boolean gameOver = false;
 
     //Button Variables
     static Button topLeft = new Button(), topMiddle = new Button(), topRight = new Button();
@@ -139,6 +140,7 @@ public class TicTacToe extends Main {
     //Click the button and set image
     private static void tap(String option, Button button, int location) {
         board.set(location, option);
+        checkEndGame(option);
         if (option.equals("1")) {
             button.setDisable(true);
             button.setGraphic(new ImageView(player1));
@@ -149,8 +151,8 @@ public class TicTacToe extends Main {
             button.setGraphic(new ImageView(player2));
             button.setVisible(true);
         }
-        checkEndGame(option);
         Main.sendBoardToServer();
+        checkEndGame(option);
         turnFinished = true;
     }
 
@@ -183,6 +185,10 @@ public class TicTacToe extends Main {
     //Checks if the game is won
     public static void wonGame(String option) {
         // ServerThread.gameIsOver = true ?
+
+        System.out.println("GAME OVER TEST LINE");
+        gameOver = true;
+        Main.sendBoardToServer();
         try {
             Main.socket.close();
         } catch (IOException e) {
@@ -205,7 +211,6 @@ public class TicTacToe extends Main {
 
     //Checks if the game is a tie
     public static void tieGame(String option) {
-
         try {
             Main.socket.close();
         } catch (IOException e) {
@@ -229,6 +234,10 @@ public class TicTacToe extends Main {
 
     //Updates the state of the board
     public static void updateBoard() {
+        String yourNum = null;
+        if(playerTurn == "1") yourNum = "2";
+        if(playerTurn == "2") yourNum = "1";
+        checkEndGame(yourNum);
         System.out.println("updating local board");
         System.out.println("Local board is now: " + board.toString());
         updateButton(topLeft, board.get(0));

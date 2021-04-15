@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ServerThread extends Thread {
 
@@ -17,6 +18,7 @@ public class ServerThread extends Thread {
     ServerThread partner = null;
     Boolean primaryThread = null;
     int playerID;
+    String endBoard;
 
     //Thread Constructor
     public ServerThread(Socket socket, int playerID) {
@@ -169,6 +171,8 @@ public class ServerThread extends Thread {
                 gameIsOver = true;
             }
         }
+        //out.println(endBoard);
+        System.out.println("test" + endBoard);
         out.println("3");
         partner.out.println("3");
 
