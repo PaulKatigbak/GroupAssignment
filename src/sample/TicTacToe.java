@@ -1,24 +1,23 @@
 package sample;
 
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.Group;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TicTacToe extends Main{
+public class TicTacToe extends Main {
 
-    //Getting image
+    //Getting image of board grids
     private static final Image topLeftImage = new Image("TicTacToeGridTopLeft.png");
     private static final Image topMiddleImage = new Image("TicTacToeGridTopMiddle.png");
     private static final Image topRightImage = new Image("TicTacToeGridTopRight.png");
@@ -28,26 +27,34 @@ public class TicTacToe extends Main{
     private static final Image bottomLeftImage = new Image("TicTacToeGridBottomLeft.png");
     private static final Image bottomMiddleImage = new Image("TicTacToeGridBottomMiddle.png");
     private static final Image bottomRightImage = new Image("TicTacToeGridBottomRight.png");
+
+    //Image of the X and O
     private static final Image player1 = new Image("EX.gif");
     private static final Image player2 = new Image("OH.png");
+
+    //Conditional Variables
     public static boolean turnFinished = false;
     public static ArrayList<Button> buttons = new ArrayList<>();
-    static ArrayList<String> board = new ArrayList<>();
     public static String playerTurn;
+    static ArrayList<String> board = new ArrayList<>();
 
+    //Button Variables
     static Button topLeft = new Button(), topMiddle = new Button(), topRight = new Button();
     static Button middleLeft = new Button(), middleMiddle = new Button(), middleRight = new Button();
     static Button bottomLeft = new Button(), bottomMiddle = new Button(), bottomRight = new Button();
 
+//---------------------------------Functions------------------------------------------------------------//
+
+    //Initialize the state of the board
     public static GridPane getTicTacToe(String playerTurned) {
         playerTurn = playerTurned;
         GridPane ticTacGrid = new GridPane();
         Text test = new Text("TESTING TEXT");
         ticTacGrid.setAlignment(Pos.TOP_LEFT);
-        ticTacGrid.setPadding(new Insets(50,50,50,50));
+        ticTacGrid.setPadding(new Insets(50, 50, 50, 50));
 
         //Initialize board array
-        for(int i = 0; i<9; i++) {
+        for (int i = 0; i < 9; i++) {
             board.add("0");
         }
         System.out.println(board.size());
@@ -64,14 +71,6 @@ public class TicTacToe extends Main{
         ticTacGrid.add(new ImageView(bottomRightImage), 2, 2);
 
         //Declaring Buttons
-        /*
-        Button topLeft = new Button(), topMiddle = new Button(), topRight = new Button();
-        Button middleLeft = new Button(), middleMiddle = new Button(), middleRight = new Button();
-        Button bottomLeft = new Button(), bottomMiddle = new Button(), bottomRight = new Button();
-
-        buttons.add(topLeft); buttons.add(topMiddle); buttons.add(topRight);
-        buttons.add(middleLeft); buttons.add(middleMiddle); buttons.add(middleRight);
-        buttons.add(bottomLeft); buttons.add(bottomMiddle); buttons.add(bottomRight);*/
 
         //Setting buttons to be initially inactive
         topLeft.setDisable(true);
@@ -100,7 +99,7 @@ public class TicTacToe extends Main{
         ticTacGrid.add(topMiddle, 1, 0);
         ticTacGrid.add(topRight, 2, 0);
         ticTacGrid.add(middleLeft, 0, 1);
-        ticTacGrid.add(middleMiddle, 1,1);
+        ticTacGrid.add(middleMiddle, 1, 1);
         ticTacGrid.add(middleRight, 2, 1);
         ticTacGrid.add(bottomLeft, 0, 2);
         ticTacGrid.add(bottomMiddle, 1, 2);
@@ -117,14 +116,15 @@ public class TicTacToe extends Main{
         middleLeft.setOnAction(e -> tap(playerTurn, middleLeft, 3));
         middleMiddle.setOnAction(e -> tap(playerTurn, middleMiddle, 4));
         middleRight.setOnAction(e -> tap(playerTurn, middleRight, 5));
-        bottomLeft.setOnAction(e -> tap(playerTurn, bottomLeft,6));
+        bottomLeft.setOnAction(e -> tap(playerTurn, bottomLeft, 6));
         bottomMiddle.setOnAction(e -> tap(playerTurn, bottomMiddle, 7));
         bottomRight.setOnAction(e -> tap(playerTurn, bottomRight, 8));
 
         return ticTacGrid;
     }
 
-    public static void enableButtons(){
+    //Enables the buttons on click
+    public static void enableButtons() {
         topLeft.setDisable(false);
         topMiddle.setDisable(false);
         topRight.setDisable(false);
@@ -136,14 +136,15 @@ public class TicTacToe extends Main{
         bottomRight.setDisable(false);
     }
 
+    //Click the button and set image
     private static void tap(String option, Button button, int location) {
         board.set(location, option);
-        if(option.equals("1")){
+        if (option.equals("1")) {
             button.setDisable(true);
             button.setGraphic(new ImageView(player1));
             button.setVisible(true);
         }
-        if(option.equals("2")){
+        if (option.equals("2")) {
             button.setDisable(true);
             button.setGraphic(new ImageView(player2));
             button.setVisible(true);
@@ -153,39 +154,33 @@ public class TicTacToe extends Main{
         turnFinished = true;
     }
 
-    public static void checkEndGame(String option){
-        if (board.get(0).equals(option) && board.get(1).equals(option) && board.get(2).equals(option)){
+    //Sets the win or tie conditions for the board
+    public static void checkEndGame(String option) {
+        if (board.get(0).equals(option) && board.get(1).equals(option) && board.get(2).equals(option)) {
             wonGame(option);
-        }
-        else if (board.get(3).equals(option) && board.get(4).equals(option) && board.get(5).equals(option)){
+        } else if (board.get(3).equals(option) && board.get(4).equals(option) && board.get(5).equals(option)) {
             wonGame(option);
-        }
-        else if (board.get(6).equals(option) && board.get(7).equals(option) && board.get(8).equals(option)){
+        } else if (board.get(6).equals(option) && board.get(7).equals(option) && board.get(8).equals(option)) {
             wonGame(option);
-        }
-        else if (board.get(0).equals(option) && board.get(3).equals(option) && board.get(6).equals(option)){
+        } else if (board.get(0).equals(option) && board.get(3).equals(option) && board.get(6).equals(option)) {
             wonGame(option);
-        }
-        else if (board.get(1).equals(option) && board.get(4).equals(option) && board.get(7).equals(option)){
+        } else if (board.get(1).equals(option) && board.get(4).equals(option) && board.get(7).equals(option)) {
             wonGame(option);
-        }
-        else if (board.get(2).equals(option) && board.get(5).equals(option) && board.get(8).equals(option)){
+        } else if (board.get(2).equals(option) && board.get(5).equals(option) && board.get(8).equals(option)) {
             wonGame(option);
-        }
-        else if (board.get(0).equals(option) && board.get(4).equals(option) && board.get(8).equals(option)){
+        } else if (board.get(0).equals(option) && board.get(4).equals(option) && board.get(8).equals(option)) {
             wonGame(option);
-        }
-        else if (board.get(2).equals(option) && board.get(4).equals(option) && board.get(6).equals(option)){
+        } else if (board.get(2).equals(option) && board.get(4).equals(option) && board.get(6).equals(option)) {
             wonGame(option);
-        }
-        else if (!board.get(0).equals("0") && !board.get(1).equals("0") && !board.get(2).equals("0")
+        } else if (!board.get(0).equals("0") && !board.get(1).equals("0") && !board.get(2).equals("0")
                 && !board.get(3).equals("0") && !board.get(4).equals("0") && !board.get(5).equals("0")
-                && !board.get(6).equals("0") && !board.get(7).equals("0") && !board.get(8).equals("0")){
+                && !board.get(6).equals("0") && !board.get(7).equals("0") && !board.get(8).equals("0")) {
             tieGame(option);
         }
     }
 
 
+    //Checks if the game is won
     public static void wonGame(String option) {
         // ServerThread.gameIsOver = true ?
         try {
@@ -208,7 +203,8 @@ public class TicTacToe extends Main{
 
     }
 
-    public static void tieGame(String option){
+    //Checks if the game is a tie
+    public static void tieGame(String option) {
 
         try {
             Main.socket.close();
@@ -231,7 +227,8 @@ public class TicTacToe extends Main{
 
     }
 
-    public static void updateBoard(){
+    //Updates the state of the board
+    public static void updateBoard() {
         System.out.println("updating local board");
         System.out.println("Local board is now: " + board.toString());
         updateButton(topLeft, board.get(0));
@@ -246,16 +243,17 @@ public class TicTacToe extends Main{
 
     }
 
-    public static void updateButton(Button button, String val){
+    //Checks if the button grid has been clicked
+    public static void updateButton(Button button, String val) {
         //System.out.println("val is being read as: " +val);
-        if (val.equals("0")){
+        if (val.equals("0")) {
             //do nothing mane
-        } else if (val.equals("1")){
+        } else if (val.equals("1")) {
             //System.out.println("button val is now "+val);
             button.setDisable(true);
             button.setGraphic(new ImageView(player1));
             button.setVisible(true);
-        } else if (val.equals("2")){
+        } else if (val.equals("2")) {
             //System.out.println("button val is now "+val);
             button.setDisable(true);
             button.setGraphic(new ImageView(player2));
